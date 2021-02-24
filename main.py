@@ -109,7 +109,7 @@ def upload_all():
             print('to: ',  os.path.join(os.sep+'opt', 'sts', 'migration', 'Migration', 'platform', dir, 'defaultcfg'+os.sep).replace("\\", "/"))
             print('from: ', os.path.join('c:'+os.sep, 'opt', 'sts', 'Migration', dir, 'defaultcfg'+os.sep))
             try:
-                upload(lin_ip, xml, os.path.join(os.sep+'opt', 'sts', 'migration', 'Migration', 'platform', dir, 'defaultcfg'+os.sep).replace("\\", "/"),
+                upload(linux, xml, os.path.join(os.sep+'opt', 'sts', 'migration', 'Migration', 'platform', dir, 'defaultcfg'+os.sep).replace("\\", "/"),
                        os.path.join('c:'+os.sep, 'opt', 'sts', 'Migration', dir, 'defaultcfg'+os.sep))
             except Exception as e:
                 print("error here")
@@ -118,19 +118,21 @@ def upload_all():
             print(xml)
             print(os.path.join('c:' + os.sep, 'opt', 'sts', 'Migration', dir, 'actualcfg', xml))
             try:
-                upload(lin_ip, xml, os.path.join(os.sep+'opt', 'sts', 'migration', 'Migration', 'platform', dir, 'actualcfg'+os.sep).replace("\\", "/"),
+                upload(linux, xml, os.path.join(os.sep+'opt', 'sts', 'migration', 'Migration', 'platform', dir, 'actualcfg'+os.sep).replace("\\", "/"),
                        os.path.join('c:'+os.sep, 'opt', 'sts', 'Migration', dir, 'actualcfg'))
             except Exception as e:
                 print("error here")
                 print(e)
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(lin_ip, username="root", password="strom")
+    ssh.connect(linux, username="root", password="strom")
     sftp = ssh.open_sftp()
     f = sftp.open('/opt/sts/migration/Migration/win.done', 'w')
     f.close()
     print('Upload finished, proceed at linux')
 
+
+get_config_from_file()
 download_all()
 upload_all()
 input()
