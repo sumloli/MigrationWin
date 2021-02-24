@@ -1,0 +1,38 @@
+{
+  "servers": [
+    {
+      "name": "linux",
+      "ip": [
+        "10.240.151.134"
+      ],
+      "credentials": [
+        {
+          "username": "root",
+          "password": "strom"
+        }
+      ]
+    },
+    {
+      "name": "windows",
+      "ips": [
+        "10.240.206.114",
+        "10.240.206.115",
+        "10.240.206.116"
+      ],
+      "credentials": [
+        {
+          "username": "migration",
+          "password": "migration"
+        }
+      ]
+    },
+    {
+      "name": "xmls",
+      "xmls": [
+        "core_olm.xml",
+        "logging.xml",
+        "oam.xml"
+      ]
+    }
+  ]
+}

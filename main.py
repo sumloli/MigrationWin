@@ -1,3 +1,4 @@
+import json
 import os
 import paramiko
 import shutil
@@ -6,7 +7,32 @@ import shutil
 
 win_ips = ['10.240.206.114','10.240.206.115','10.240.206.116']
 xmls = ['core_olm.xml', 'logging.xml', 'oam.xml']
-lin_ip = '10.240.151.134'
+
+linux = windows = lin_username = lin_password = win_username = win_password = ...
+
+
+def get_config_from_file():
+    global linux
+    global windows
+    global lin_username
+    global lin_password
+    global roleuser
+    with open('config.json', 'r') as config_file:
+        config_data = json.load(config_file)
+        linux = config_data['servers'][0]['ip'][0]
+        print(f'{config_data["servers"][0]["name"]}: {linux}')
+        windows = config_data['servers'][1]['ips']
+        print(f'{config_data["servers"][1]["name"]}: {windows}')
+        lin_username = config_data['servers'][0]['credentials'][0]['username']
+        print(lin_username)
+        lin_password = config_data['servers'][0]['credentials'][0]['password']
+        print(lin_password)
+        win_username = config_data['servers'][1]['credentials'][0]['username']
+        print(win_username)
+        win_password = config_data['servers'][1]['credentials'][0]['password']
+        print(win_password)
+    return linux, windows, lin_username, lin_password, win_username, win_password
+
 
 def download_win_see_def_cfgs(source_ip, dest_path, file_name):
     shutil.copyfile(os.path.join(f'//{source_ip}/sts/see/defaultcfg', file_name), os.path.join(dest_path, file_name))
@@ -37,7 +63,7 @@ def mkdir_p(sftp, remote_directory):
 
 
 def download_all():
-    for ip in win_ips:
+    for ip in windows:
         os.makedirs(f'C:/opt/sts/Migration/see[{ip}]/defaultcfg', exist_ok=True)
         os.makedirs(f'C:/opt/sts/Migration/see[{ip}]/actualcfg', exist_ok=True)
         print(f'folder "see[{ip}]" is created')
@@ -52,13 +78,12 @@ def download_all():
                 print(f' -- "{xml}" is not found')
 
 
-
 def upload(ip, filename, remotepath, localpath=''):
     path = os.getcwd()
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
-        ssh.connect(ip, username="root", password="strom")
+        ssh.connect(ip, username=lin_username, password=lin_password)
     except Exception as e:
         print(e)
         print("It doesn't seem to be Prague's VM \nTrying to use RU credentials instead")
