@@ -3,7 +3,7 @@ import shutil
 
 
 def upload_win_see_actual_cfgs(dest_ip, source_path, file_name):
-    shutil.copyfile(os.path.join(f'//{source_path}/sts/see/', file_name), os.path.join(dest_ip, file_name))
+    shutil.copyfile(os.path.join(source_path, file_name), os.path.join(f'//{dest_ip}/sts/see/', file_name))
 
 
 def rollback(platform):
@@ -32,3 +32,4 @@ def rollback(platform):
                                        file_name=cfg)
 
 rollback('Migration')
+
