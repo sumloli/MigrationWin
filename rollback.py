@@ -30,3 +30,5 @@ def rollback(platform):
                         print(line)
             upload_win_see_actual_cfgs(dest_ip=ip, source_path=f'C:/opt/sts/Migration/see[{ip}]/actualcfg',
                                        file_name=cfg)
+
+rollback('Migration')
