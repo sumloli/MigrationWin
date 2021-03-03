@@ -3,9 +3,6 @@ import os
 import paramiko
 import shutil
 
-
-
-win_ips = ['10.240.206.114','10.240.206.115','10.240.206.116']
 xmls = ['core_olm.xml', 'logging.xml', 'oam.xml']
 
 linux = windows = lin_username = lin_password = win_username = win_password = ...
@@ -53,11 +50,11 @@ def mkdir_p(sftp, remote_directory):
         # top-level relative directory must exist
         return
     try:
-        sftp.chdir(remote_directory) # sub-directory exists
+        sftp.chdir(remote_directory)  # sub-directory exists
     except IOError:
         dirname, basename = os.path.split(remote_directory.rstrip('/'))
-        mkdir_p(sftp, dirname) # make parent directories
-        sftp.mkdir(basename) # sub-directory missing, so created it
+        mkdir_p(sftp, dirname)  # make parent directories
+        sftp.mkdir(basename)  # sub-directory missing, so created it
         sftp.chdir(basename)
         return True
 
@@ -106,11 +103,13 @@ def upload_all():
         for xml in os.listdir(f'C:/opt/sts/Migration/{dir}/defaultcfg'):
             print(xml)
             # print(os.path.join('c:' + os.sep, 'opt', 'sts', 'Migration', dir, 'defaultcfg', xml))
-            print('to: ',  os.path.join(os.sep+'opt', 'sts', 'migration', 'Migration', 'platform', dir, 'defaultcfg'+os.sep).replace("\\", "/"))
-            print('from: ', os.path.join('c:'+os.sep, 'opt', 'sts', 'Migration', dir, 'defaultcfg'+os.sep))
+            print('to: ', os.path.join(os.sep + 'opt', 'sts', 'migration', 'Migration', 'platform', dir,
+                                       'defaultcfg' + os.sep).replace("\\", "/"))
+            print('from: ', os.path.join('c:' + os.sep, 'opt', 'sts', 'Migration', dir, 'defaultcfg' + os.sep))
             try:
-                upload(linux, xml, os.path.join(os.sep+'opt', 'sts', 'migration', 'Migration', 'platform', dir, 'defaultcfg'+os.sep).replace("\\", "/"),
-                       os.path.join('c:'+os.sep, 'opt', 'sts', 'Migration', dir, 'defaultcfg'+os.sep))
+                upload(linux, xml, os.path.join(os.sep + 'opt', 'sts', 'migration', 'Migration', 'platform', dir,
+                                                'defaultcfg' + os.sep).replace("\\", "/"),
+                       os.path.join('c:' + os.sep, 'opt', 'sts', 'Migration', dir, 'defaultcfg' + os.sep))
             except Exception as e:
                 print("error here")
                 print(e)
@@ -118,8 +117,9 @@ def upload_all():
             print(xml)
             print(os.path.join('c:' + os.sep, 'opt', 'sts', 'Migration', dir, 'actualcfg', xml))
             try:
-                upload(linux, xml, os.path.join(os.sep+'opt', 'sts', 'migration', 'Migration', 'platform', dir, 'actualcfg'+os.sep).replace("\\", "/"),
-                       os.path.join('c:'+os.sep, 'opt', 'sts', 'Migration', dir, 'actualcfg'))
+                upload(linux, xml, os.path.join(os.sep + 'opt', 'sts', 'migration', 'Migration', 'platform', dir,
+                                                'actualcfg' + os.sep).replace("\\", "/"),
+                       os.path.join('c:' + os.sep, 'opt', 'sts', 'Migration', dir, 'actualcfg'))
             except Exception as e:
                 print("error here")
                 print(e)
